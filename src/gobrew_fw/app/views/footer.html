@@ -1,5 +1,13 @@
+
+  <script src="/public/js/vendor/jquery.js"></script>
+  <script src="/public/js/vendor/foundation.min.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
+
   {{if eq .RunMode "dev"}}
     {{template "debug.html" .}}
   {{end}}
+
   </body>
 </html>
