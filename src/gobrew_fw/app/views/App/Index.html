@@ -1,20 +1,44 @@
 {{set . "title" "gobrew::fw"}}
 {{template "header.html" .}}
 
-<header>
-  <div class="row">
-      <h1>gobrew::fw</h1>
-      <p>gobrew aims to make it easy to develop with multiple version of Go, as well as setting up environmental paths.</p>
-      <p>gobrew::fw aims to make it possible to use gobrew inside a restrictive LAN or Firewall just like you do at home.</p>
-  </div>
-</header>
 
-<div class="container">
-  <div class="row">
-    <div class="span6">
-      {{template "flash.html" .}}
-    </div>
+<div class="row">
+  <div class="large-9 push-3 columns">
+    <h2 id="what-is-gobrew">What is gobrew?</h2>
+    <p>
+      <a href="https://github.com/grobins2/gobrew">gobrew</a> aims to make it easy to develop with multiple versions of Go, as well as setting up environmental paths.
+    </p>
+    <h2 id="what-does-gobrew-fw-exist">Why does gobrew::fw exist?</h2>
+    <p>
+      To enable developers that want to use <a href="https://github.com/grobins2/gobrew">gobrew</a> in an environment that restricts access to the Internet.
+      <blockquote>
+        Many corporate environments restrict access to the outside web in order to limit the risk of downloading viruses or causing damage throughout the network unintentionally. A lot of these places require special permission to download and install software.
+        <footer>
+          <cite>
+            <a href="https://github.com/stevenhaddox/rvm_fw/commit/bc2fb423b3a222b9435a429c1ddae2130a1052e0#diff-589df7437da00e558e261e5bd55eda38R16">RVM::FW</a>
+          </cit>
+        </footer>
+      </blockquote>
+    </p>
+
+  <section class="large-12 columns">
+        {{template "flash.html" .}}
+  </section>
   </div>
-</div>
+
+  <div class="large-3 pull-9 columns">
+
+    <ul class="side-nav">
+      <li><a href="#">Section 1</a></li>
+      <li><a href="#">Section 2</a></li>
+      <li><a href="#">Section 3</a></li>
+      <li><a href="#">Section 4</a></li>
+      <li><a href="#">Section 5</a></li>
+      <li><a href="#">Section 6</a></li>
+    </ul>
+
+    <p><img src="http://placehold.it/320x240&text=Ad" /></p>
+
+  </div>
 
 {{template "footer.html" .}}
