@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"path/filepath"
 	"runtime"
@@ -10,7 +11,7 @@ import (
 
 func init() {
 	flag.IntVar(&port, "port", 8080, "The port at which to serve http.")
-	flag.StringVar(&host, "host", "127.0.0.1", "The host at which to serve http.")
+	flag.StringVar(&host, "host", "0.0.0.0", "The host at which to serve http.")
 }
 
 func main() {
@@ -22,6 +23,7 @@ func main() {
 func serveHTTP() {
 	serveStaticResources()
 	// serveAjaxMethods(server)
+	serveRequests()
 	activateServer()
 }
 
@@ -30,6 +32,19 @@ func serveStaticResources() {
 	here := filepath.Dir(file)
 	static := filepath.Join(here, "/web")
 	http.Handle("/", http.FileServer(http.Dir(static)))
+}
+
+func serveRequests() {
+	http.HandleFunc("/gobrew/install", gobrewInstallHandler)
+}
+
+func gobrewInstallHandler(w http.ResponseWriter, r *http.Request) {
+	body, err := ioutil.ReadFile("scripts/gobrew_install.sh")
+	if err != nil {
+		fmt.Fprintf(w, "problem fetching install script %s", err)
+		return
+	}
+	fmt.Fprintf(w, "%s", body)
 }
 
 func activateServer() {
