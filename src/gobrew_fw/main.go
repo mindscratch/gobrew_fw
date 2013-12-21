@@ -3,11 +3,16 @@ package main
 import (
 	"flag"
 	"fmt"
+	"html/template"
 	"io/ioutil"
 	"net/http"
 	"path/filepath"
 	"runtime"
 )
+
+type VersionsPage struct {
+	Files []string
+}
 
 func init() {
 	flag.IntVar(&port, "port", 8080, "The port at which to serve http.")
@@ -36,6 +41,7 @@ func serveStaticResources() {
 
 func serveRequests() {
 	http.HandleFunc("/gobrew/install", gobrewInstallHandler)
+	http.HandleFunc("/versions", versionsHandler)
 }
 
 func gobrewInstallHandler(w http.ResponseWriter, r *http.Request) {
@@ -46,6 +52,30 @@ func gobrewInstallHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Fprintf(w, "%s", body)
 }
+
+func versionsHandler(w http.ResponseWriter, r *http.Request) {
+	files, _ := ioutil.ReadDir("web/files")
+	fileNames := make([]string, len(files))
+	for _, f := range files {
+		if !f.IsDir() {
+			fileNames = append(fileNames, f.Name())
+		}
+	}
+	versionsPage := &VersionsPage{Files: fileNames}
+	versionsTemplate, _ := template.ParseFiles("templates/versions.html")
+	versionsTemplate.Execute(w, versionsPage)
+	// body, err := ioutil.ReadFile("templates/versions.html")
+	// if err != nil {
+	// 	fmt.Fprintf(w, "problem rendering versions %s", err)
+	// 	return
+	// }
+	// fmt.Fprintf(w, "%s", body)
+}
+
+// func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
+// 	t, _ := template.ParseFiles(tmpl + ".html")
+// 	t.Execute(w, p)
+// }
 
 func activateServer() {
 	fmt.Printf("Serving HTTP at: http://%s:%d\n", host, port)
